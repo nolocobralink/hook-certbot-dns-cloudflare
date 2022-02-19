@@ -1,0 +1,9 @@
+services:
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /path/to/certs/or/etc/letsencrypt:/etc/letsencrypt
+      - ./scripts/hook.py:/root/hook.py
+      - ./scripts/clean.py:/root/clean.py
+    env_file: .env
+    command: certonly --manual --preferred-challenges=dns --manual-auth-hook /root/hook.py --manual-cleanup-hook /root/clean.py -d ${CERTBOT_CMD_DOMAIN} -d *.${CERTBOT_CMD_DOMAIN} --email ${CERTBOT_EMAIL} --agree-tos -n --server ${CERTBOT_SERVER} -v
