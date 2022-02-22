@@ -11,7 +11,19 @@ def main():
     api_key = os.getenv("CERTBOT_API_KEY")
     correo = os.getenv("CERTBOT_EMAIL")
     contenido = os.getenv("CERTBOT_VALIDATION")
-    r = requests.post("https://api.cloudflare.com/client/v4/zones/" + zona + "/dns_records", json={ "type": "TXT", "name": "_acme-challenge." + dominio, "content": contenido, "ttl": 60 }, headers={ "Authentication": "Bearer " + authentication, "X-Auth-Email": correo, "X-Auth-Key": api_key })
+    cuerpo = { 
+        "type": "TXT", 
+        "name": "_acme-challenge." + dominio, 
+        "content": contenido, 
+        "ttl": 60 
+    }
+    headers = {
+        "X-Auth-Email": correo, 
+        "X-Auth-Key": api_key
+    }
+    if authentication:
+        headers["Authentication"] = "Bearer " + authentication
+    r = requests.post("https://api.cloudflare.com/client/v4/zones/" + zona + "/dns_records", json=cuerpo, headers=headers)
     if (not r.status_code in range(200, 299)):
         print("Error " + str(r.status_code))
         print(r.json())
