@@ -15,7 +15,7 @@ def main():
     if authentication:
         headers["Authentication"] = "Bearer " + authentication
     if not os.path.isfile("/tmp/ids"):
-        print("No se encuentra el archivo, se asume que ya se limpiaron los registros TXT.")
+        print("File not found, TXT records assumed to be cleaned.")
         exit()
     archivo = open("/tmp/ids", "r")
     ids = archivo.read().splitlines()
