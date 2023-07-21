@@ -5,6 +5,8 @@ import requests
 import time
 
 def main():
+    if not os.path.exists("/tmp/ids"):
+         os.mkdir("/tmp/ids")
     domain = os.getenv("CERTBOT_DOMAIN")
     zone = os.getenv("CERTBOT_ZONE_ID")
     authentication = os.getenv("CERTBOT_BEARER_TOKEN")
@@ -29,11 +31,8 @@ def main():
         print(r.json())
         exit()
     id = r.json()["result"]["id"]
-    new_line = os.path.isfile("/tmp/ids")
-    file = open("/tmp/ids", "a+")
-    if new_line:
-        file.write("\n")
-    file.write(id)
+    archivo = open(f"/tmp/ids/{id}", "w")
+    archivo.close()
     time.sleep(60)
 
 

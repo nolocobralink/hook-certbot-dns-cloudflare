@@ -14,18 +14,22 @@ def main():
     }
     if authentication:
         headers["Authentication"] = "Bearer " + authentication
-    if not os.path.isfile("/tmp/ids"):
-        print("File not found, TXT records assumed to be cleaned.")
+    if not os.path.exists("/tmp/ids"):
+        print("Directory not found, TXT records assumed to be cleaned.")
         exit()
-    file = open("/tmp/ids", "r")
-    ids = file.read().splitlines()
-    for id in ids:
-        r = requests.delete("https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records/" + id, headers=headers)
-        if (not r.status_code in range(200, 299)):
-            print("Error " + str(r.status_code))
-            print(r.json())
-            exit()
-    os.remove("/tmp/ids")
+    files = os.listdir("/tmp/ids")
+    if len(files) == 0:
+         print("Empty directory, TXT records assumed to be cleaned.")
+         exit()
+    id = files[0]
+    r = requests.delete("https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records/" + id, headers=headers)
+    if (not r.status_code in range(200, 299)):
+        print("Error " + str(r.status_code))
+        print(r.json())
+        exit()
+    os.remove(f"/tmp/ids/{id}")
+    if len(os.listdir("/tmp/ids")) == 0:
+         os.rmdir("/tmp/ids")
 
 
 if __name__ == "__main__":
