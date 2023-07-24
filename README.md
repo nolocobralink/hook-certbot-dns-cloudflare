@@ -40,6 +40,10 @@ This environment variable will hold the API Key from Cloudflare to use when the 
 
 After all environment variables are set properly, type "docker-compose run --rm certbot" and wait for the process to finish. The hook will wait 60 seconds for every challenge registered on your DNS, so if you only wanted to generate a certificate for your root domain or just the wildcard, the process will take a little bit more than 1 minute, however, if instead of the wildcard certificate you requested a certificate for multiple sub-domains, expect the process to last longer.
 
+### LETSENCRYPT_FOLDER (Added 24-07-2023)
+
+This environment variable will hold the location of the Let's Encrypt files stored in your server. This variable was added since previously the file docker-compose.yaml had to be modified after pulling the project from GitHub, and the local Git would detect that as a modification. By default this variable's value is "/etc/letsencrypt", since this is the usual location of the files, but it should be changed to the actual location of the files and certificates. DO NOT leave this variable empty as it will throw errors from Docker Compose.
+
 # What to do next?
 
 After the certificates are generated, the container running the command will be removed (unless you forgot the "--rm" argument) and any temporary file will be removed. Then you can reload or restart any service using HTTPS that also uses the generated certificate, or just change the configuration of those services so they can use the certificates.

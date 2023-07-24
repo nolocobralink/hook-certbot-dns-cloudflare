@@ -2,7 +2,7 @@ services:
   certbot:
     image: certbot/certbot
     volumes:
-      - /path/to/certs/or/etc/letsencrypt:/etc/letsencrypt
+      - ${LETSENCRYPT_FOLDER}:/etc/letsencrypt
       - ./scripts/hook.py:/root/hook.py
       - ./scripts/clean.py:/root/clean.py
     env_file: .env
