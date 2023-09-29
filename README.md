@@ -48,9 +48,9 @@ This environment variable will hold the location of the Let's Encrypt files stor
 
 After the certificates are generated, the container running the command will be removed (unless you forgot the "--rm" argument) and any temporary file will be removed. Then you can reload or restart any service using HTTPS that also uses the generated certificate, or just change the configuration of those services so they can use the certificates.
 
-# Do I have to run this everytime I need to renew my certificate?
+# Do I have to run this manually everytime I need to renew my certificate?
 
-No. This is the main reason why it was made. Probably most people prefer generating a wildcard certificate rather than one or more certificates for different sets of sub-domains, however, it is quite the pain having to manually create TXT records to renew the certificate, and since Cloudflare is the DNS service I use personally and in my work, and also because up to this date this is the only DNS service that has an API Rest capable of managing a user's DNS, I decided to create a script that can automatically create TXT records with the data provided by certbot. And I also decided to containerize it with Docker and simplify it with Docker Compose so that the final command is simple.
+No. This is the main reason why it was made. Probably most people prefer generating a wildcard certificate rather than one or more certificates for different sets of sub-domains, however, it is quite the pain having to manually create TXT records to renew the certificate, and since Cloudflare is the DNS service I use personally and in my work, and also because up to this date this is the only DNS service that has an API Rest capable of managing a user's DNS (that I know of), I decided to create a script that can automatically create TXT records with the data provided by certbot. And I also decided to containerize it with Docker and simplify it with Docker Compose so that the final command is simple.
 
 # OK, so can I create a cron with this?
 
